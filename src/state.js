@@ -80,7 +80,7 @@ export const state = {
     coupons: seed.coupons.map((c) => ({ ...c })),
     makeupHistory: seed.makeupHistory.map((c) => ({ ...c })),
     payments: seed.payments.map((c) => ({ ...c })),
-    privateRequests: [],
+    privateRequests: seed.privateRequests.map((r) => ({ ...r })),
   },
 };
 
@@ -98,7 +98,7 @@ export function setMemberType(kind) {
       coupons: seed.coupons.map((c) => ({ ...c })),
       makeupHistory: seed.makeupHistory.map((c) => ({ ...c })),
       payments: seed.payments.map((c) => ({ ...c })),
-      privateRequests: [],
+      privateRequests: seed.privateRequests.map((r) => ({ ...r })),
     };
   commit();
 }
@@ -110,7 +110,7 @@ export function resetData() {
     coupons: seed.coupons.map((c) => ({ ...c })),
     makeupHistory: seed.makeupHistory.map((c) => ({ ...c })),
     payments: seed.payments.map((c) => ({ ...c })),
-    privateRequests: [],
+    privateRequests: seed.privateRequests.map((r) => ({ ...r })),
   };
   state.stack = [];
   state.sheet = null;

@@ -452,6 +452,28 @@ export const seed = {
     { id: 'pay-7', at: '2026-08-10', kind: 'coupon', name: '발레스트레칭 쿠폰', qty: '5회', amount: 125000 },
   ],
 
+  /**
+   * 승인을 기다리는 개인레슨 요청.
+   * 요청 → 대기 → 승인은 회원이 아무것도 안 해도 시간이 흐르는 구간이라,
+   * 프로토타입에서도 '보내놓고 기다리는 중'인 상태가 하나는 있어야 한다.
+   * 1회 요청이므로 picks는 확정 회차가 아니라 후보 시각이다.
+   */
+  privateRequests: [
+    {
+      id: 'pr-1',
+      at: '2026-08-14',
+      teacher: '소정T',
+      mode: 'once',
+      dur: 60,
+      picks: [
+        { ymd: '2026-08-20', start: 15 * 60, room: 'B홀' },
+        { ymd: '2026-08-21', start: 14 * 60, room: 'A홀' },
+      ],
+      amount: PRIVATE_PRICE[60],
+      status: 'pending',
+    },
+  ],
+
   // 알림 기능은 후속(P1)에서 노출한다. 데이터만 먼저 정의해 둔다.
   notifications: [
     { id: 'n-1', title: '보강 사용 기한이 다가와요', desc: '8월 31일까지 사용할 수 있는 보강 1회가 있어요.', at: '2026-08-14' },
