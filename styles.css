@@ -71,6 +71,26 @@
      이 값이라야 펼칠 때 아이콘이 제자리에 그대로 있는다. */
   --rail:       72px;
   --rail-open:  240px;   /* 내부 패딩 포함 */
+  /* --- 타이포그래피 (Figma 텍스트 스타일) -------------------------------
+     font 단축 속성이라 `font: var(--display-m-semibold)` 한 줄로 쓴다.
+     letter-spacing은 전부 0이라 body에서 한 번만 지정한다. */
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+          "Apple SD Gothic Neo", system-ui, sans-serif;
+
+  --display-m-semibold: 600 28px/1.42 var(--font);
+  --display-s-semibold: 600 20px/1.4  var(--font);
+
+  --text-l-semibold:    600 16px/1.5  var(--font);
+  --text-l-medium:      500 16px/1.5  var(--font);
+  --text-l-regular:     400 16px/1.5  var(--font);
+
+  --text-m-semibold:    600 14px/1.6  var(--font);
+  --text-m-medium:      500 14px/1.6  var(--font);
+  --text-m-regular:     400 14px/1.6  var(--font);
+
+  --text-s-medium:      500 12px/1.5  var(--font);
+  --text-s-regular:     400 12px/1.5  var(--font);
+
   /* 데스크톱 모달 공통 폭 — 본문 단(600)에서 좌우 패딩 16을 뺀 카드 폭 */
   --modal-w:    568px;
   /* 가운데 모달용 딤드 — 요소에 붙는 spread 그림자라 별도 레이어 없이 z-index가 맞는다 */
@@ -93,8 +113,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   background: #F0F0F0;   /* 앱 프레임 바깥 (데스크톱) */
   color: var(--ink);
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-               "Apple SD Gothic Neo", system-ui, sans-serif;
+  font-family: var(--font);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -155,7 +174,7 @@ h1, h2, h3, h4, p { margin: 0; }
 .hdr__greet p { margin-top: 4px; font-size: 13px; color: var(--ink-3); }
 /* 화면 제목 — m-semibold (Pretendard SemiBold 28 / 142% / 0)
  */
-.hdr__title { font-size: 28px; font-weight: 600; line-height: 1.42; letter-spacing: 0; }
+.hdr__title { font: var(--display-m-semibold); letter-spacing: 0; }
 .hdr__actions { display: flex; align-items: center; gap: 4px; }
 .icon-btn {
   width: 38px; height: 38px; border-radius: var(--r-pill);
@@ -379,7 +398,7 @@ a.btn { text-decoration: none; }
 .guides .guide:last-child { border-bottom: 0; }
 /* 레벨명 ↔ 구성 시간이 한 줄에서 마주 본다 */
 .guide__top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-.guide__name { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.guide__name { font: var(--text-l-semibold); }
 
 .guide__target { margin-top: 3px; font-size: 13px; color: var(--accent); font-weight: 600; }
 .guide__structure { flex: none; font-size: 12px; color: var(--odile-600); }
@@ -436,7 +455,7 @@ a.btn { text-decoration: none; }
 }
 .pass__top { display: flex; align-items: flex-start; gap: 12px; }
 .pass__title { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.pass__kind { font-size: 12px; font-weight: 500; line-height: 1.5; color: var(--odile-600); }
+.pass__kind { font: var(--text-s-medium); color: var(--odile-600); }
 .pass__name { font-size: 20px; font-weight: 600; line-height: 1.6; color: var(--odile-900); }
 .pass__term { font-size: 12px; font-weight: 400; line-height: 1.3; color: var(--odile-600); }
 
@@ -444,14 +463,14 @@ a.btn { text-decoration: none; }
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   padding: 2px 6px; border-radius: 6px;
   background: var(--odile-900); color: #fff;
-  font-size: 12px; font-weight: 500; line-height: 1.5; white-space: nowrap;
+  font: var(--text-s-medium); white-space: nowrap;
 }
 
 /* 아래 — 취소·보강·잔여. 카드 색 위에 얹는 반투명 블록 */
 .pass__desc { padding: 0 12px; background: rgba(250, 250, 250, .4); }
 .pass__row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; font-size: 14px; font-weight: 400; line-height: 1.6;
+  padding: 10px 0; font: var(--text-m-regular);
 }
 .pass__row + .pass__row { border-top: 1px solid rgba(33, 33, 33, .05); }
 .pass__k { color: var(--odile-600); }
@@ -537,7 +556,7 @@ a.btn { text-decoration: none; }
   display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px;
   min-height: 0; padding: 8px 12px;
   border-radius: 12px; box-shadow: inset 0 0 0 1px var(--odile-300);
-  font-size: 12px; font-weight: 500; line-height: 1.5; letter-spacing: 0;
+  font: var(--text-s-medium); letter-spacing: 0;
   color: var(--odile-800);
 }
 .pill--today .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--aurora-200); }
@@ -671,7 +690,7 @@ a.btn { text-decoration: none; }
   /* Figma는 좌우 32px이지만 430px 폭에선 '수강신청'이 잘려서 4px로 둔다 (중앙 정렬은 동일) */
   padding: 10px 4px 8px;
   color: var(--nav-ink);
-  font-size: 12px; font-weight: 500; line-height: 1.5;
+  font: var(--text-s-medium);
   transition: color .16s var(--ease);
 }
 .nav__label {
@@ -733,7 +752,7 @@ a.btn { text-decoration: none; }
 
 .sheet__header { display: flex; flex-direction: column; gap: 4px; }
 .sheet__titlerow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-.sheet__title { font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: 0; color: var(--odile-900); }
+.sheet__title { font: var(--display-s-semibold); letter-spacing: 0; color: var(--odile-900); }
 .sheet__info { display: flex; color: var(--odile-600); }
 .sheet__desc { font-size: 14px; line-height: 1.6; color: var(--odile-700); }
 .sheet__body {
@@ -770,7 +789,7 @@ a.btn { text-decoration: none; }
 }
 /* 구분선은 내용이 헤더 아래로 밀려 들어갔을 때만 — 처음엔 선이 없다 */
 .popup__header.is-stuck { box-shadow: 0 1px 0 var(--odile-200); }
-.popup__title { font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: 0; color: var(--odile-900); }
+.popup__title { font: var(--display-s-semibold); letter-spacing: 0; color: var(--odile-900); }
 .popup__close { display: flex; width: 28px; height: 28px; color: var(--odile-900); }
 .popup__close svg { width: 28px; height: 28px; }
 .popup__body { flex: 1; overflow-y: auto; padding: 0 16px calc(16px + var(--safe-b)); }
@@ -784,8 +803,8 @@ a.btn { text-decoration: none; }
   padding: 12px 0; border-top: 1px solid var(--odile-200);
 }
 .infolist__row:first-child { border-top: 0; }
-.infolist dt { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--odile-600); }
-.infolist dd { margin: 0; font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--odile-900); text-align: right; }
+.infolist dt { font: var(--text-m-regular); color: var(--odile-600); }
+.infolist dd { margin: 0; font: var(--text-m-medium); color: var(--odile-900); text-align: right; }
 
 /* --- List/ItemHistory (56:12794) ------------------------------------------ */
 /* 금액은 오른쪽 첫 줄에 붙는다 — 이름이 두 줄로 늘어나도 위에 남아 있게 flex-start */
@@ -796,10 +815,10 @@ a.btn { text-decoration: none; }
 }
 .histrow:first-child { border-top: 0; }
 .histrow__content { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.histrow__head { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
-.histrow__desc { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-700); }
+.histrow__head { font: var(--text-l-medium); color: var(--odile-900); }
+.histrow__desc { font: var(--text-s-regular); color: var(--odile-700); }
 .histrow__amount {
-  font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--odile-900); white-space: nowrap;
+  font: var(--text-m-medium); color: var(--odile-900); white-space: nowrap;
 }
 /* 환불은 음수 한 줄 — 부호만으로는 스쳐 지나가서 색까지 준다 */
 .histrow__amount--refund { color: var(--red); }
@@ -817,12 +836,12 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 .cirow__info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .cirow__title,
 .cirow__meta { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cirow__title { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
-.cirow__meta { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
+.cirow__title { font: var(--text-l-medium); color: var(--odile-900); }
+.cirow__meta { font: var(--text-s-regular); color: var(--odile-600); }
 .cirow--dim .cirow__title,
 .cirow--dim .cirow__meta { color: var(--odile-400); }
 .cirow__note {
-  flex-shrink: 0; font-size: 12px; font-weight: 400; line-height: 1.5;
+  flex-shrink: 0; font: var(--text-s-regular);
   color: var(--odile-600); white-space: nowrap;
 }
 
@@ -837,7 +856,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
   padding: 10px 12px; border-radius: 12px;
 }
 .infonotice__icon { flex: none; display: flex; }
-.infonotice__text { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--odile-800); }
+.infonotice__text { font: var(--text-m-regular); color: var(--odile-800); }
 .infonotice--notice { background: var(--giselle-50); }
 .infonotice--notice .infonotice__icon,
 .infonotice--notice .infonotice__text { color: var(--aurora-200); }
@@ -1006,7 +1025,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
   .nav__item {
     flex: 0 0 auto; height: auto; flex-direction: row; justify-content: flex-start;
     gap: 12px; padding: 10px; border-radius: 12px;
-    font-size: 16px; font-weight: 400; line-height: 1.5;
+    font: var(--text-l-regular);
     transition: background .16s var(--ease), color .16s var(--ease);
   }
   .nav:hover .nav__item:hover { background: var(--nav-hover); }
@@ -1150,7 +1169,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
   flex: 1 0 0; min-width: 0;
   display: flex; align-items: center; justify-content: center;
   padding: 4px 12px; border-radius: var(--r-pill);
-  font-size: 14px; font-weight: 500; line-height: 1.6; color: var(--odile-800);
+  font: var(--text-m-medium); color: var(--odile-800);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: color .22s var(--ease), opacity .12s var(--ease);
 }
@@ -1174,7 +1193,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 .calendar__nav:active { background: var(--odile-200); }
 .calendar__label {
   flex: 1 0 0; min-width: 0; text-align: center;
-  font-size: 14px; font-weight: 500; line-height: 1.6; color: #000;
+  font: var(--text-m-medium); color: #000;
   font-variant-numeric: tabular-nums;
 }
 /* 주간·월간이 같은 7열 격자를 쓴다 — 열 폭이 다르면 뷰를 바꿀 때 요일이 흔들린다.
@@ -1194,8 +1213,8 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 .calday--week { gap: 2px; min-height: 66px; padding: 10px 12px 12px; }
 .calday--label { min-height: 38px; padding: 10px 12px 12px; font-size: 12px; color: var(--odile-600); }
 .calday--day, .calday--blank { min-height: 38px; padding: 2px 12px 12px; }
-.calday__wd { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
-.calday__n  { font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--odile-900); font-variant-numeric: tabular-nums; }
+.calday__wd { font: var(--text-s-regular); color: var(--odile-600); }
+.calday__n  { font: var(--text-l-regular); color: var(--odile-900); font-variant-numeric: tabular-nums; }
 /* 오늘만 semibold — 나머지 날짜는 regular */
 .calday.is-today .calday__n { font-weight: 600; }
 .calday.is-disabled .calday__n { color: var(--odile-400); }
@@ -1225,11 +1244,11 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 .classrow:active .classrow__inner { opacity: .6; }
 
 .classrow__time { flex: 0 0 64px; display: flex; flex-direction: column; align-items: flex-start; }
-.classrow__start { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--odile-900); font-variant-numeric: tabular-nums; }
-.classrow__end   { font-size: 12px; font-weight: 500; line-height: 1.5; color: var(--odile-500); font-variant-numeric: tabular-nums; }
+.classrow__start { font: var(--text-l-semibold); color: var(--odile-900); font-variant-numeric: tabular-nums; }
+.classrow__end   { font: var(--text-s-medium); color: var(--odile-500); font-variant-numeric: tabular-nums; }
 .classrow__info  { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
-.classrow__title { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
-.classrow__meta  { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
+.classrow__title { font: var(--text-l-medium); color: var(--odile-900); }
+.classrow__meta  { font: var(--text-s-regular); color: var(--odile-600); }
 .classrow__title, .classrow__meta { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* Figma 40:655 — 셰브런은 흐름에서 빠져 나와 카드 오른쪽 6px에 붙는다
    (.classrow의 좌우 16px 패딩보다 10px 더 바깥) */
@@ -1263,7 +1282,7 @@ button.alert:active { opacity: .7; }
 .alert__icon svg { width: 20px; height: 20px; display: block; }
 .alert__text {
   flex: 1 0 0; min-width: 0;
-  font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--odile-900);
+  font: var(--text-m-regular); color: var(--odile-900);
 }
 .alert__text b { font-weight: 500; }
 .alert__aside { flex: none; display: flex; color: var(--odile-900); }
@@ -1289,16 +1308,16 @@ button.alert:active { opacity: .7; }
   color: var(--odile-600);
 }
 .condrow__body { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; }
-.condrow__label { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
-.condrow__value { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
+.condrow__label { font: var(--text-s-regular); color: var(--odile-600); }
+.condrow__value { font: var(--text-l-medium); color: var(--odile-900); }
 
 .reco {
   display: flex; flex-direction: column; gap: 2px; width: 100%;
   padding: 14px 16px; border-radius: 12px; text-align: left;
   background: var(--surface-sub);
 }
-.reco__title { font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--odile-900); }
-.reco__desc { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
+.reco__title { font: var(--text-m-semibold); color: var(--odile-900); }
+.reco__desc { font: var(--text-s-regular); color: var(--odile-600); }
 
 .teachers { display: flex; flex-direction: column; gap: 8px; }
 .teacher {
@@ -1315,19 +1334,19 @@ button.alert:active { opacity: .7; }
 }
 .teacher__body { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .teacher__top { display: flex; align-items: center; gap: 6px; }
-.teacher__name { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--odile-900); }
+.teacher__name { font: var(--text-l-semibold); color: var(--odile-900); }
 /* '후보' — 지정해도 확정이 아니라는 표시라 채우지 않고 테두리만 준다 */
 .teacher__tag {
   padding: 1px 6px; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--odile-300);
   font-size: 11px; font-weight: 500; line-height: 1.5; color: var(--odile-600);
 }
-.teacher__meta { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
+.teacher__meta { font: var(--text-s-regular); color: var(--odile-600); }
 .teacher__tags { display: flex; gap: 4px; margin-top: 4px; }
 
 /* 예약 조건 시트 — 항목마다 라벨 + 컨트롤 */
 .condfield { display: flex; flex-direction: column; gap: 8px; }
 .condfield + .condfield { margin-top: 4px; }
-.condfield__label { font-size: 12px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
+.condfield__label { font: var(--text-s-medium); color: var(--odile-900); }
 .condfield .pills { flex-wrap: wrap; }
 .condfield .calendar { margin-top: 0; }
 
@@ -1347,7 +1366,7 @@ button.alert:active { opacity: .7; }
   background: var(--surface); box-shadow: inset 0 0 0 1px var(--odile-200);
 }
 .reqcard__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.reqcard__title { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--odile-900); }
+.reqcard__title { font: var(--text-l-semibold); color: var(--odile-900); }
 .reqcard__meta { margin-top: 2px; font-size: 12px; line-height: 1.5; color: var(--odile-600); }
 .reqcard__when {
   margin: 10px 0 0; padding: 0; list-style: none;
@@ -1382,7 +1401,7 @@ button.alert:active { opacity: .7; }
 .daysec { margin-top: 20px; }
 /* text/s-medium (12 / 500 / 1.5 / 0) */
 .daysec__label {
-  font-size: 12px; font-weight: 500; line-height: 1.5; letter-spacing: 0;
+  font: var(--text-s-medium); letter-spacing: 0;
   color: var(--odile-900); margin-bottom: 8px;
 }
 /* 내 수업 세로 리듬 — 타이틀 →20px→ 세그먼트 →12px→ 캘린더 (Figma 40:443) */
@@ -1412,14 +1431,14 @@ button.alert:active { opacity: .7; }
 }
 .result__head { display: flex; flex-direction: column; gap: 2px; }
 /* display/s-semibold */
-.stack-page--withnav .result__title { font-size: 20px; font-weight: 600; line-height: 1.4; color: var(--odile-900); }
-.result__sub { font-size: 14px; font-weight: 400; line-height: 1.6; color: var(--odile-600); }
+.stack-page--withnav .result__title { font: var(--display-s-semibold); color: var(--odile-900); }
+.result__sub { font: var(--text-m-regular); color: var(--odile-600); }
 .stack-page--withnav .infolist { width: 100%; }
 /* buttonGroup gap-m 8 · 버튼은 높이 고정이 아니라 padding 10/16 (Figma 51:10822) */
 .result__actions { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 .result__actions .btn {
   min-height: 0; padding: 10px 16px; border-radius: 12px;
-  font-size: 14px; font-weight: 500; line-height: 1.6;
+  font: var(--text-m-medium);
 }
 .result__actions .btn--primary { background: var(--giselle-100); color: var(--odile-900); }
 .result__actions .btn--outline { box-shadow: inset 0 0 0 1px var(--odile-300); color: var(--odile-800); }
@@ -1432,8 +1451,8 @@ button.alert:active { opacity: .7; }
   background: var(--surface); box-shadow: inset 0 0 0 1px var(--odile-200);
 }
 .selectcard__label { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.selectcard__title { font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900); }
-.selectcard__meta { font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-600); }
+.selectcard__title { font: var(--text-l-medium); color: var(--odile-900); }
+.selectcard__meta { font: var(--text-s-regular); color: var(--odile-600); }
 
 .stepper { flex: none; display: flex; align-items: center; gap: 8px; }
 .stepper__btn {
@@ -1448,7 +1467,7 @@ button.alert:active { opacity: .7; }
 }
 .stepper__num {
   width: 40px; padding: 8px 0; text-align: center;
-  font-size: 16px; font-weight: 500; line-height: 1.5; color: var(--odile-900);
+  font: var(--text-l-medium); color: var(--odile-900);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1457,5 +1476,5 @@ button.alert:active { opacity: .7; }
 /* 전역 리셋(li { list-style: none })이 ul의 상속을 이기므로 li에 직접 준다 */
 .notelist li {
   list-style: disc;
-  font-size: 12px; font-weight: 400; line-height: 1.5; color: var(--odile-500);
+  font: var(--text-s-regular); color: var(--odile-500);
 }
