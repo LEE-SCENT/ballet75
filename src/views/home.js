@@ -143,12 +143,10 @@ function nextSection() {
 /**
  * 전체 수업 보기 — 홈은 오늘과 다음 3회까지만 세운다.
  * 그 뒤가 궁금한 사람에게 '내 수업'으로 가는 길을 한 줄로 준다.
- * 진입일 뿐 결정이 아니라서 버튼 무게는 아래 부가 진입보다 가볍게 둔다.
+ * 진입일 뿐 결정이 아니라서, 이 앱에서 가벼운 보조 버튼을 맡는 ghost를 쓴다.
  */
 const moreClasses = () => `
-  <button class="morelink" data-action="go-my">
-    <span>전체 수업 보기</span>${icons.chevronRight({ size: 18 })}
-  </button>`;
+  <button class="btn btn--ghost mt-8" data-action="go-my">전체 수업 보기</button>`;
 
 /* --- 부가 진입 (60:14001 buttonGroup) -------------------------------------- */
 const shortcuts = () => `
