@@ -444,6 +444,17 @@ export const monthClasses = (month) =>
 
 export const nextClass = () => upcomingClasses()[0] || null;
 
+/**
+ * 그 주에서 기본으로 고를 날 — 오늘이 있으면 오늘, 없으면 첫 수업일.
+ * 월간의 selectedDay()와 같은 규칙이라 두 뷰가 같은 방식으로 움직인다.
+ */
+export function weekDefaultDay(weekStart) {
+  const end = addDays(weekStart, 6);
+  if (dayStart(NOW) >= weekStart && dayStart(NOW) <= end) return dayStart(NOW);
+  const first = weekClasses(weekStart)[0];
+  return first ? dayStart(first.startAt) : new Date(weekStart);
+}
+
 export function weekClasses(weekStart) {
   const end = addDays(weekStart, 7);
   return myEnrolledClasses().filter((c) => c.startAt >= weekStart && c.startAt < end);

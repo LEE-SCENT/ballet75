@@ -9,7 +9,7 @@ import {
   submitRegular, submitBooking, bookingMethods, getClass, cancelClass, cancelRegularEnrollment,
   setPrivate, resetPrivate, addPrivatePick, removePrivatePick, submitPrivateRequest,
   privateSeries, privateSlots, parseYmd as parseYmdStr,
-  makeupAvailable, activeCoupons, startOfWeek, addDays, parseYmd, EMPTY_FILTER,
+  makeupAvailable, activeCoupons, startOfWeek, addDays, parseYmd, weekDefaultDay, EMPTY_FILTER,
 } from './state.js';
 import { NOW, brand, ymd, termOf } from './data.js';
 import { icons } from './ui.js';
@@ -19,6 +19,9 @@ import { enrollView, singleBookingView, selectionBar } from './views/enroll.js';
 import { accountView } from './views/account.js';
 import { stackPage } from './views/flows.js';
 import { sheetView, levelGuidePopup, makeupGuidePopup } from './views/sheets.js';
+
+/** 가운데 확인 창 — 시트가 아니라 팝업 층에 올린다 (아래 시트가 닫히지 않게) */
+const CONFIRM_POPUPS = new Set(['cancel-confirm', 'cancel-enroll']);
 
 const root = document.getElementById('app');
 const toastEl = document.getElementById('toast');
@@ -97,7 +100,7 @@ function render() {
   const stack = state.stack.length ? stackPage(state.stack[state.stack.length - 1]) : '';
   const sheet = state.sheet ? sheetView(state.sheet) : '';
   const popup = state.popup?.name === 'level-guide' ? levelGuidePopup(state.popup.props)
-    : state.popup?.name === 'cancel-confirm' ? sheetView(state.popup)
+    : CONFIRM_POPUPS.has(state.popup?.name) ? sheetView(state.popup)
     : state.popup?.name === 'makeup-guide' ? makeupGuidePopup()
       : '';
 
@@ -148,7 +151,26 @@ function render() {
 
   document.body.style.overflow = (state.sheet || state.stack.length || state.popup || single) ? 'hidden' : '';
 
+  syncThemeColor();
+
   queueHistorySync();
+}
+
+/**
+ * 브라우저 상단(주소창·상태 표시줄) 색을 화면과 맞춘다.
+ * 스크림이 깔리면 본문은 어두워지는데 theme-color가 고정이면 경계가 드러난다.
+ * 딤 색은 흰 배경(#FFF) 위에 rgba(0,0,0,.2)를 올린 결과다 → #CCCCCC
+ */
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const THEME = { plain: '#FFFFFF', dim: '#CCCCCC' };
+
+function syncThemeColor() {
+  // 전체 화면을 덮는 흰 팝업(레벨 안내)만 딤이 아니다
+  const dimmed = state.popup
+    ? state.popup.name !== 'level-guide'
+    : Boolean(state.sheet);
+  const next = THEME[dimmed ? 'dim' : 'plain'];
+  if (themeMeta && themeMeta.content !== next) themeMeta.content = next;
 }
 
 subscribe(render);
@@ -278,6 +300,18 @@ function resetPicks() {
   commit();
 }
 
+/**
+ * 주를 넘길 때 선택일도 그 주로 옮긴다.
+ * 안 옮기면 캘린더엔 아무 날도 안 눌린 채 목록만 떠서 기준점이 사라진다.
+ * (월간의 selectedDay()와 같은 규칙)
+ */
+function shiftWeek(days) {
+  const start = addDays(state.my.weekStart, days);
+  state.my.weekStart = start;
+  state.my.day = ymd(weekDefaultDay(start));
+  commit();
+}
+
 function shiftPrivateMonth(step) {
   const next = state.private.month + step;
   if (!termOf(next)) return toast('그 달 시간표는 아직 나오지 않았어요.');
@@ -368,8 +402,8 @@ const actions = {
 
   /* 내 수업 */
   'my-view': (el) => { state.my.view = el.dataset.value; commit(); },
-  'week-prev': () => { state.my.weekStart = addDays(state.my.weekStart, -7); commit(); },
-  'week-next': () => { state.my.weekStart = addDays(state.my.weekStart, 7); commit(); },
+  'week-prev': () => shiftWeek(-7),
+  'week-next': () => shiftWeek(7),
   'month-prev': () => { state.my.month -= 1; commit(); },
   'month-next': () => { state.my.month += 1; commit(); },
   'my-today': () => {
@@ -408,10 +442,11 @@ const actions = {
     return toast(r ? '개인레슨 요청을 보냈어요. 승인되면 결제 안내를 드려요.' : '시간을 먼저 골라 주세요.');
   },
 
-  'ask-cancel-enroll': (el) => openSheet('cancel-enroll', { month: el.dataset.month }),
+  'ask-cancel-enroll': (el) => openPopup('cancel-enroll', { month: el.dataset.month }),
   'do-cancel-enroll': (el) => {
     const m = Number(el.dataset.month);
     if (!cancelRegularEnrollment(m)) return toast('신청 기간이 지나 앱에서는 취소할 수 없어요.');
+    closePopup();
     closeSheet();
     toast(`${m + 1}월 수강신청을 취소했어요.`);
   },

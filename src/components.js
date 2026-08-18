@@ -186,6 +186,25 @@ export const popupPanel = ({
     </div>
   </div>`;
 
+/**
+ * 확인 창 (popup--compact) — 가운데 뜨는 짧은 확인.
+ * 시트 위에 겹칠 때 형태가 달라야 "아래 것 위에 뜬 확인"으로 읽힌다.
+ */
+export const confirmPopup = ({
+  title, desc, body, footNotice, actions, label, close = 'close-popup',
+}) => `
+  <div class="popup-scrim" data-action="${close}"></div>
+  <div class="popup popup--compact" role="dialog" aria-modal="true"
+       aria-label="${esc(label || title || '')}">
+    <div class="popup__head"><h2 class="popup__title">${esc(title)}</h2></div>
+    <div class="popup__body">
+      ${desc ? `<p class="confirm__desc">${desc}</p>` : ''}
+      ${body || ''}
+      ${footNotice || ''}
+      ${actions ? `<div class="popup__actions">${actions}</div>` : ''}
+    </div>
+  </div>`;
+
 /** List/ItemBasic — 라벨·값 한 줄씩 쌓는 정보 목록 */
 export const infoList = (rows) => `
   <dl class="infolist">

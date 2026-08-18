@@ -73,6 +73,8 @@
   --rail-open:  240px;   /* 내부 패딩 포함 */
   /* 데스크톱 모달 공통 폭 — 본문 단(600)에서 좌우 패딩 16을 뺀 카드 폭 */
   --modal-w:    568px;
+  /* 가운데 모달용 딤드 — 요소에 붙는 spread 그림자라 별도 레이어 없이 z-index가 맞는다 */
+  --dim:        0 0 0 100vmax rgba(25, 21, 25, .4);
   --nav-hover:  rgba(226, 200, 209, .25);   /* 75aurora/alpha50/25 */
   --nav-ink:    var(--odile-800);
   --nav-ink-on: var(--giselle-200);
@@ -151,7 +153,9 @@ h1, h2, h3, h4, p { margin: 0; }
 .hdr__greet { margin-top: 14px; }
 .hdr__greet h1 { font-size: 22px; font-weight: 700; line-height: 1.3; }
 .hdr__greet p { margin-top: 4px; font-size: 13px; color: var(--ink-3); }
-.hdr__title { font-size: 32px; font-weight: 600; line-height: 1.3; letter-spacing: 0; }
+/* 화면 제목 — m-semibold (Pretendard SemiBold 28 / 142% / 0)
+ */
+.hdr__title { font-size: 28px; font-weight: 600; line-height: 1.42; letter-spacing: 0; }
 .hdr__actions { display: flex; align-items: center; gap: 4px; }
 .icon-btn {
   width: 38px; height: 38px; border-radius: var(--r-pill);
@@ -878,6 +882,9 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 }
 .popup--compact .popup__title { font-size: 18px; font-weight: 700; }
 .popup--compact .popup__body { padding: 0 18px 20px; overflow-y: auto; }
+/* 확인 창의 한 줄 설명 — 제목 바로 아래 */
+.confirm__desc { font-size: 14px; line-height: 1.6; color: var(--odile-700); margin-bottom: 16px; }
+.popup--compact .popup__actions { margin-top: 16px; }
 /* 수업 상세에서 들어온 레벨을 강조 */
 /* .guide.is-focus는 스크롤 위치를 잡는 표식일 뿐 — 색은 입히지 않는다 */
 
@@ -1019,10 +1026,8 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
      width:100%를 함께 줘야 max-width까지 실제로 넓어진다. */
   .hdr, .content { width: 100%; max-width: 600px; margin-inline: auto; }
   /* 데스크톱에는 가릴 바텀 네비가 없다 — 붙잡아 두면 본문 위에 겹치기만 한다 */
-  .hdr { position: static; padding: 28px 16px 10px; background: none; }
+  .hdr { position: static; padding: 20px 16px; background: none; }
   .hdr__brand, .hdr__mark { display: none; }
-  .hdr__title { font-size: 20px; line-height: 1.4; }
-  .hdr--home { padding-top: 28px; }
   .content--with-bar { padding-bottom: 120px; }
 
   /* 내 수업 — 왼쪽 캘린더 / 오른쪽 목록 (61:15008)
@@ -1066,7 +1071,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
     padding: 24px 20px; box-shadow: inset 1px 0 0 var(--odile-200);
     animation: panelIn .22s var(--ease);
   }
-  .sheet--panel ~ .scrim, .scrim:has(~ .sheet--panel) { background: transparent; pointer-events: none; }
+  .scrim:has(+ .sheet--panel) { background: transparent; pointer-events: none; }
   .sheet--panel .sheet__close { display: grid; }
   /* 패널은 세로가 남아돈다 — 버튼을 바닥으로 밀지 않고 정보 바로 아래에 붙인다 */
   .sheet--panel .sheet__body { flex: 0 0 auto; overflow: visible; }
@@ -1079,22 +1084,19 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
     transform: translate(-50%, -50%);
     width: min(var(--modal-w), 92vw); max-width: none; max-height: 82dvh;
     border-radius: 20px; overflow: hidden;
-    box-shadow: 0 30px 80px rgba(25, 21, 25, .26);
+    box-shadow: 0 30px 80px rgba(25, 21, 25, .26), var(--dim);
     animation: modalIn .24s var(--ease);
   }
+  /* 컴팩트 확인 창은 자기 스크림이 있으므로 딤을 겹치지 않는다 */
+  .popup--compact { box-shadow: 0 24px 60px rgba(33, 33, 33, .3); }
   .popup__header { padding: 20px 24px 16px; }
   .popup__body { padding: 0 24px 24px; }
-  /* 뒤를 덮어 초점을 남긴다 — 닫기는 X와 Esc로 */
-  .app:has(.popup)::after {
-    content: ''; position: fixed; inset: 0; z-index: 61;
-    background: rgba(25, 21, 25, .4); animation: fade .18s var(--ease);
-  }
 
   /* 플로우 전체 화면 → 중앙 모달 */
   .stack-page {
     top: 50%; bottom: auto; left: calc(50% + var(--rail) / 2); transform: translate(-50%, -50%);
     width: min(var(--modal-w), 92vw); max-width: none; height: auto; max-height: 88dvh;
-    border-radius: 20px; box-shadow: 0 30px 80px rgba(25,21,25,.26);
+    border-radius: 20px; box-shadow: 0 30px 80px rgba(25, 21, 25, .26), var(--dim);
     animation: modalIn .26s var(--ease);
   }
   .stack-page .subhdr { padding: 16px 20px 8px; border-radius: 20px 20px 0 0; }
@@ -1354,13 +1356,13 @@ button.alert:active { opacity: .7; }
 .reqcard__when li { font-size: 14px; line-height: 1.6; color: var(--odile-900); }
 
 /* --- 홈 헤더 (60:13972) --------------------------------------------------- */
-.hdr--home { display: flex; align-items: center; gap: 12px; padding-top: 20px; }
+.hdr--home { display: flex; align-items: center; gap: 12px; padding: 20px 16px; }
 /* logo-ballet75 (60:14023) — 42 라운드 박스 안에 26×20 창을 내고
    원본 로고(945×380, 모노그램 + 태그라인)를 확대해 모노그램만 남긴다.
    흰 배경은 multiply로 분홍 바탕에 녹인다. */
 .hdr__mark {
   flex: none; position: relative; overflow: hidden;
-  width: 42px; height: 42px; border-radius: 16px;
+  width: 40px; height: 40px; border-radius: 16px;
   background: var(--aurora-50);
 }
 .hdr__mark-img {

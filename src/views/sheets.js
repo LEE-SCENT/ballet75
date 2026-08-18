@@ -24,7 +24,7 @@ import {
 import { esc, icons, statusChip, typeTag } from '../ui.js';
 import {
   bottomSheet, popupPanel, infoList, infoNotice, historyList,
-  classInfoList, emptyBox, selectCard, stepper,
+  classInfoList, emptyBox, selectCard, stepper, confirmPopup,
   segmentedControl, calendar, calendarMonthDay,
 } from '../components.js';
 
@@ -160,7 +160,7 @@ function cancelConfirm({ id }) {
       ['보강', `${makeupAvailable() + 1}회 가능`],
     ];
 
-  return bottomSheet({
+  return confirmPopup({
     title: '이 수업을 취소할까요?',
     desc: `${esc(c.name)} · ${fmtMD(c.startAt)} (${WD_LABEL[c.startAt.getDay()]}) · ${timeRange(c)}`,
     body: infoList(rows),
@@ -172,10 +172,6 @@ function cancelConfirm({ id }) {
     }),
     actions: `<button class="btn btn--critical" data-action="do-cancel" data-id="${c.id}">수업 취소</button>`,
     label: '수업 취소 확인',
-    // 수업 상세 위에 겹쳐 뜬다 — 데스크톱에서 오른쪽 패널이 닫히지 않게
-    variant: 'over',
-    close: 'close-popup',
-    animate: state.ui.animatePopup !== false,
   });
 }
 
@@ -190,7 +186,7 @@ function cancelEnrollConfirm({ month }) {
   // 마감일은 아직 안 지났을 때만 — 중도 등록으로 열린 창은 마감일이 이미 지나 있다
   const { closeAt } = enrollmentWindow(m);
 
-  return bottomSheet({
+  return confirmPopup({
     title: `${m + 1}월 수강신청을 취소할까요?`,
     desc: `정규반 · 주${per}회 · ${count}회 수업`,
     body: infoList([
@@ -205,7 +201,6 @@ function cancelEnrollConfirm({ month }) {
     }),
     actions: `<button class="btn btn--critical" data-action="do-cancel-enroll" data-month="${m}">수강신청 취소</button>`,
     label: '수강신청 취소 확인',
-    animate: state.ui.animateSheet,
   });
 }
 

@@ -102,7 +102,7 @@ function alerts() {
     }));
   }
 
-  return out.length ? `<div class="mt-16">${out.join('')}</div>` : '';
+  return out.length ? `<div class="alerts">${out.join('')}</div>` : '';
 }
 
 /* --- 오늘 / 다음 수업 ----------------------------------------------------- */
