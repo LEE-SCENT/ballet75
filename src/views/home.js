@@ -7,6 +7,7 @@
 import {
   state, todayClasses, nextClass, upcomingClasses,
   enrollmentWindow, makeupAvailable, makeupDeadline, activeCoupons, couponRemaining,
+  pendingPrivateRequests,
   hhmm, parseYmd, fmtMD, fmtMDDow, isSameDay, dayStart,
 } from '../state.js';
 import { NOW, user, PASS_BADGE_DAYS, ENROLLMENT_NOTICE_DAY } from '../data.js';
@@ -40,7 +41,9 @@ const dday = (d) => {
 const urgent = (d) => Math.round((dayStart(d) - dayStart(NOW)) / 86400000) <= PASS_BADGE_DAYS;
 
 /* --- 알림 (60:13977 classCard) --------------------------------------------
-   순서는 급한 것부터 — 신규 안내 → 신청 오픈 → 보강 → 쿠폰. */
+   순서는 급한 것부터 — 신규 안내 → 신청 오픈 → 보강 → 쿠폰 → 개인레슨.
+   개인레슨 요청이 맨 끝인 이유는 기한이 없어서다. 보강·쿠폰은 놓치면 사라지고
+   개인레슨은 학원의 답을 기다리는 일이라, 재촉할 것이 없다. */
 function alerts() {
   const out = [];
   const w = enrollmentWindow(NOW.getMonth() + 1);
@@ -99,6 +102,20 @@ function alerts() {
       badge: dday(at),
       action: 'use-coupon',
       id: coupon.id,
+    }));
+  }
+
+  // 요청을 보낸 뒤 결과를 볼 수 있는 곳이 개인레슨 화면의 '내 요청' 탭뿐이라
+  // 회원은 자기가 뭘 기다리는지 잊는다. 홈에서 그 탭으로 바로 들어가게 한다.
+  const pending = pendingPrivateRequests();
+  if (pending.length) {
+    out.push(alertCard({
+      tone: 'notice',
+      icon: icons.account(true),
+      // 배지 없음 — 마감이 아니라 답을 기다리는 일이다
+      text: `개인레슨 요청 <b>${pending.length}건</b>이 확인 중이에요`,
+      arrow: true,
+      action: 'go-private-requests',
     }));
   }
 

@@ -1027,6 +1027,14 @@ export function resetPrivate() {
   commit();
 }
 
+/**
+ * 아직 답을 못 받은 요청.
+ * 회원 입장에서는 보내놓고 기다리는 상태라, 결과가 나올 때까지 확인할 자리가
+ * 필요하다 — 홈 알림이 그 자리를 맡는다.
+ */
+export const pendingPrivateRequests = () =>
+  state.data.privateRequests.filter((r) => r.status === 'pending');
+
 /** 요청 제출 — 승인 후 결제라 이 시점에는 돈이 오가지 않는다 */
 export function submitPrivateRequest() {
   const p = state.private;

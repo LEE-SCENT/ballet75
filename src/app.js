@@ -422,6 +422,8 @@ const actions = {
   },
   /* 개인레슨 예약 */
   'go-private': () => { resetPrivate(); push('private'); },
+  // 홈 알림에서 들어오면 예약이 아니라 결과를 보러 온 것이다
+  'go-private-requests': () => { resetPrivate(); setPrivate({ tab: 'requests' }); push('private'); },
   'private-tab': (el) => setPrivate({ tab: el.dataset.value }),
   'private-cond': () => openSheet('private-cond'),
   'private-mode': (el) => setPrivate({ mode: el.dataset.value }),
