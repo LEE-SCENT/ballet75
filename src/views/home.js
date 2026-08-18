@@ -105,9 +105,13 @@ function alerts() {
   return out.length ? `<div class="alerts">${out.join('')}</div>` : '';
 }
 
-/* --- 오늘 / 다음 수업 ----------------------------------------------------- */
+/* --- 오늘 / 다음 수업 -----------------------------------------------------
+   홈의 라벨은 화면에 둘뿐인 구획 제목이라 내 수업의 날짜 머리글보다 한 단 크다
+   (--lead). 내 수업 쪽은 같은 라벨이 날짜마다 반복돼서 그만큼 가벼워야 한다. */
 const labeled = (label, body) => `
-  <div class="daysec"><p class="daysec__label">${esc(label)}</p>${body}</div>`;
+  <div class="daysec">
+    <p class="daysec__label daysec__label--lead">${esc(label)}</p>${body}
+  </div>`;
 
 function todaySection() {
   const today = todayClasses();

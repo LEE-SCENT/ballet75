@@ -1404,6 +1404,8 @@ button.alert:active { opacity: .7; }
   font: var(--text-s-medium); letter-spacing: 0;
   color: var(--odile-900); margin-bottom: 8px;
 }
+/* text/m-semibold (14 / 600 / 1.6) — 홈 전용 */
+.daysec__label--lead { font: var(--text-m-semibold); }
 /* 내 수업 세로 리듬 — 타이틀 →20px→ 세그먼트 →12px→ 캘린더 (Figma 40:443) */
 .hdr--flush { padding-bottom: 0; }
 .myside > .segmented { margin-top: 20px; }
