@@ -301,14 +301,16 @@ export const classCard = ({
   </button>`;
 
 /**
- * 수강권 캐러셀 — 한 화면에 두 장이 보이므로 점은 카드가 아니라 '페이지' 수만큼 찍는다.
- * (카드 4장 → 점 2개)
+ * 가로로 넘겨 보는 묶음.
+ * 점은 카드가 아니라 '페이지' 수만큼 찍는다 — 한 화면에 두 장이 보이면
+ * 카드 4장에 점 2개다. 한 장뿐이면 넘길 것이 없으니 점도 없다.
+ * 스크롤에 맞춰 점을 옮기는 일은 app.js가 .passwrap 단위로 한다.
  */
-export const classCardList = (cards, perPage = 2) => {
-  const pages = Math.ceil(cards.length / perPage);
+export const carousel = ({ items, perPage = 1, variant = '' }) => {
+  const pages = Math.ceil(items.length / perPage);
   return `
-    <div class="passwrap">
-      <div class="passlist">${cards.join('')}</div>
+    <div class="passwrap${variant ? ` passwrap--${variant}` : ''}">
+      <div class="passlist">${items.join('')}</div>
       ${pages > 1
     ? `<div class="passdots" data-per-page="${perPage}">${
       Array.from({ length: pages }, (_, i) => `<span class="passdot${i === 0 ? ' is-on' : ''}"></span>`).join('')
@@ -316,6 +318,9 @@ export const classCardList = (cards, perPage = 2) => {
     : ''}
     </div>`;
 };
+
+/** 수강권 캐러셀 — 한 화면에 두 장 */
+export const classCardList = (cards, perPage = 2) => carousel({ items: cards, perPage });
 
 /* --- selectCard + stepper — Figma 쿠폰 구매 시트 (55:12583) ---------------- */
 

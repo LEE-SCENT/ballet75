@@ -130,13 +130,15 @@ function render() {
     sync();
   }
 
-  // 수강권 카드 캐러셀 — 스크롤에 맞춰 점 표시를 옮긴다
-  const passlist = document.querySelector('.passlist');
-  if (passlist) {
-    const dots = [...document.querySelectorAll('.passdot')];
+  // 캐러셀 — 스크롤에 맞춰 점 표시를 옮긴다 (수강권 카드 · 홈 알림)
+  // 한 화면에 캐러셀이 둘 이상일 수 있으므로 묶음 안에서만 짝을 찾는다
+  for (const wrap of document.querySelectorAll('.passwrap')) {
+    const track = wrap.querySelector('.passlist');
+    const dots = [...wrap.querySelectorAll('.passdot')];
+    if (!track || !dots.length) continue;
     // 점은 페이지 단위 — 보이는 폭만큼 넘어갈 때마다 하나씩 옮긴다
-    passlist.addEventListener('scroll', () => {
-      const i = Math.round(passlist.scrollLeft / passlist.clientWidth);
+    track.addEventListener('scroll', () => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
       dots.forEach((d, n) => d.classList.toggle('is-on', n === Math.min(i, dots.length - 1)));
     }, { passive: true });
   }

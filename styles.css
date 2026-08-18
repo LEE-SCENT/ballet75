@@ -1296,6 +1296,14 @@ button.alert:active { opacity: .7; }
 .alert--guide  { background: var(--clara-100); }
 .alert--notice { background: var(--giselle-50); }
 
+/* 알림 슬라이더 — 기한 없는 안내만 한 장씩 꽉 차게 넘긴다.
+   마감 배지가 붙는 알림은 위에 세로로 남는다 (home.js의 pinned). */
+.alerts + .passwrap--alerts { margin-top: 8px; }
+.passwrap--alerts .passlist > .alert {
+  flex: 0 0 100%; scroll-snap-align: start; margin-top: 0;
+}
+.passwrap--alerts .passdots { margin-top: 8px; }
+
 /* buttonGroup (60:14001) — 화면 폭을 꽉 채우는 보조 버튼 두 개 */
 .btn-stack { display: flex; flex-direction: column; gap: 8px; }
 .btn-stack .btn {

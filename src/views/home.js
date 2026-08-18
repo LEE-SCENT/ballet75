@@ -14,7 +14,7 @@ import { NOW, user, PASS_BADGE_DAYS, ENROLLMENT_NOTICE_DAY } from '../data.js';
 import {
   esc, icons, errorState, skeletonList, skeletonBlock, placeLine,
 } from '../ui.js';
-import { classListCard, classListRow, alertCard, emptyBox } from '../components.js';
+import { classListCard, classListRow, alertCard, emptyBox, carousel } from '../components.js';
 
 /** 로고 + 인사 한 줄 */
 const header = () => `
@@ -41,17 +41,23 @@ const dday = (d) => {
 const urgent = (d) => Math.round((dayStart(d) - dayStart(NOW)) / 86400000) <= PASS_BADGE_DAYS;
 
 /* --- 알림 (60:13977 classCard) --------------------------------------------
-   순서는 급한 것부터 — 신규 안내 → 신청 오픈 → 보강 → 쿠폰 → 개인레슨.
-   개인레슨 요청이 맨 끝인 이유는 기한이 없어서다. 보강·쿠폰은 놓치면 사라지고
-   개인레슨은 학원의 답을 기다리는 일이라, 재촉할 것이 없다. */
+   두 묶음으로 나뉜다.
+
+     pinned  — 남은 일수 배지가 붙는 것(보강·쿠폰). 세로로 그대로 쌓는다.
+               넘겨야 보이는 마감은 없는 마감이나 마찬가지다.
+     sliding — 기한이 없는 안내(신규 Q&A·신청 오픈·개인레슨). 한 자리에서
+               넘겨 본다. 재촉할 게 없으니 한 번에 다 보일 이유도 없다.
+
+   두 묶음 안에서는 급한 것부터다. */
 function alerts() {
-  const out = [];
+  const pinned = [];
+  const sliding = [];
   const w = enrollmentWindow(NOW.getMonth() + 1);
   const isNew = !w.returning;
 
   // 처음 온 회원에게는 신청 전에 읽을 것이 먼저다
   if (isNew) {
-    out.push(alertCard({
+    sliding.push(alertCard({
       tone: 'guide',
       icon: icons.infoFilled({ size: 20 }),
       text: '발레를 처음 시작하는 분들을 위한 Q&A',
@@ -61,7 +67,7 @@ function alerts() {
   }
 
   if (w.kind === 'upcoming' && w.open) {
-    out.push(alertCard({
+    sliding.push(alertCard({
       tone: 'notice',
       icon: icons.infoFilled({ size: 20 }),
       text: `<b>${NOW.getMonth() + 2}월 수강신청</b>이 열렸어요`,
@@ -69,7 +75,7 @@ function alerts() {
       action: 'go-next-month',
     }));
   } else if (w.kind === 'upcoming' && NOW.getDate() >= ENROLLMENT_NOTICE_DAY) {
-    out.push(alertCard({
+    sliding.push(alertCard({
       tone: 'notice',
       icon: icons.infoFilled({ size: 20 }),
       // 배지 없음 — 문장에 날짜가 이미 있고, 오픈 전에는 재촉해도 할 수 있는 게 없다.
@@ -80,7 +86,7 @@ function alerts() {
 
   const makeup = makeupAvailable();
   if (makeup && urgent(makeupDeadline())) {
-    out.push(alertCard({
+    pinned.push(alertCard({
       tone: 'makeup',
       icon: icons.flower({ size: 20 }),
       text: `이번 달 보강 가능한 수업이 <b>${makeup}회</b> 있어요`,
@@ -95,7 +101,7 @@ function alerts() {
     .sort((a, b) => a.expiresAt.localeCompare(b.expiresAt))[0];
   if (coupon && urgent(parseYmd(coupon.expiresAt))) {
     const at = parseYmd(coupon.expiresAt);
-    out.push(alertCard({
+    pinned.push(alertCard({
       tone: 'coupon',
       icon: icons.ticket(true),
       text: `${at.getMonth() + 1}/${at.getDate()}까지 사용 가능한 쿠폰이 <b>${couponRemaining(coupon)}회</b> 남았어요`,
@@ -109,7 +115,7 @@ function alerts() {
   // 회원은 자기가 뭘 기다리는지 잊는다. 홈에서 그 탭으로 바로 들어가게 한다.
   const pending = pendingPrivateRequests();
   if (pending.length) {
-    out.push(alertCard({
+    sliding.push(alertCard({
       tone: 'notice',
       icon: icons.account(true),
       // 배지 없음 — 마감이 아니라 답을 기다리는 일이다
@@ -119,7 +125,8 @@ function alerts() {
     }));
   }
 
-  return out.length ? `<div class="alerts">${out.join('')}</div>` : '';
+  return (pinned.length ? `<div class="alerts">${pinned.join('')}</div>` : '')
+    + (sliding.length ? carousel({ items: sliding, variant: 'alerts' }) : '');
 }
 
 /* --- 오늘 / 다음 수업 ----------------------------------------------------- */
