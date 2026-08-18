@@ -213,7 +213,12 @@ h1, h2, h3, h4, p { margin: 0; }
 .btn:active { transform: scale(.985); }
 .btn--primary { background: var(--primary); color: var(--primary-ink); }
 .btn--secondary { background: var(--surface-sub); color: var(--ink); }
-.btn--ghost { background: transparent; color: var(--ink-2); min-height: 48px; font-weight: 500; }
+/* 가장 가벼운 버튼 — 크기까지 한 단 낮춰 primary/outline에 자리를 내준다.
+   text/m-medium (14 / 500 / 1.6) */
+.btn--ghost {
+  background: transparent; color: var(--ink-2); min-height: 48px;
+  font: var(--text-m-medium);
+}
 .btn--critical { background: var(--critical); color: #fff; }
 .btn--outline { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
 a.btn { text-decoration: none; }
