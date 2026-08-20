@@ -153,7 +153,7 @@ h1, h2, h3, h4, p { margin: 0; }
 /* --- Typography ----------------------------------------------------------- */
 .t-page    { font-size: 23px; font-weight: 700; line-height: 1.32; }
 .t-section { font-size: 15px; font-weight: 700; }
-.t-item    { font-size: 16px; font-weight: 600; }
+.t-item    { font: var(--text-l-semibold); }
 .t-body    { font-size: 15px; color: var(--ink-2); }
 .t-support { font-size: 14px; color: var(--ink-2); }
 .t-meta    { font-size: 13px; color: var(--ink-3); }
@@ -195,7 +195,7 @@ h1, h2, h3, h4, p { margin: 0; }
   display: flex; align-items: center; gap: 4px;
   background: var(--bg); padding: 8px 12px 8px 8px;
 }
-.subhdr__title { font-size: 16px; font-weight: 600; }
+.subhdr__title { font: var(--text-l-semibold); }
 
 /* --- Sections ------------------------------------------------------------- */
 .section { margin-top: 30px; }
@@ -291,7 +291,7 @@ a.btn { text-decoration: none; }
 .class-row__body { flex: 1; min-width: 0; display: block; }
 .class-row__meta { display: block; }
 .class-row__title { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.class-row__title .name { font-size: 16px; font-weight: 600; }
+.class-row__title .name { font: var(--text-l-semibold); }
 .class-row__meta { margin-top: 3px; font-size: 13px; color: var(--ink-3); }
 .class-row__aside { flex: 0 0 auto; display: flex; align-items: center; color: var(--ink-3); }
 .class-row--muted .class-row__title .name,
@@ -342,7 +342,7 @@ a.btn { text-decoration: none; }
 .pick[data-state="enrolled"] { background: var(--surface-sub); box-shadow: none; }
 .pick__body { flex: 1; min-width: 0; }
 .pick__name, .pick__time, .pick__meta, .pick__status { display: block; }
-.pick__name { font-size: 16px; font-weight: 600; }
+.pick__name { font: var(--text-l-semibold); }
 .pick__time { margin-top: 3px; font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .pick__meta { margin-top: 1px; font-size: 13px; color: var(--ink-3); }
 .pick__status { margin-top: 7px; }
@@ -514,7 +514,7 @@ a.btn { text-decoration: none; }
 .slotline:last-child { border-bottom: 0; padding-bottom: 3px; }
 .slotline--row { display: flex; align-items: flex-start; gap: 10px; }
 .slotline__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.slotline__name { font-size: 16px; font-weight: 600; }
+.slotline__name { font: var(--text-l-semibold); }
 .slotline__amount { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .slotline__meta { margin-top: 3px; font-size: 13px; color: var(--ink-2); }
 .slotline__dates { margin-top: 2px; font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
@@ -759,7 +759,7 @@ a.btn { text-decoration: none; }
 .sheet__titlerow { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .sheet__title { font: var(--display-s-semibold); letter-spacing: 0; color: var(--odile-900); }
 .sheet__info { display: flex; color: var(--odile-600); }
-.sheet__desc { font-size: 14px; line-height: 1.6; color: var(--odile-700); }
+.sheet__desc { font: var(--text-m-regular); color: var(--odile-700); }
 .sheet__body {
   display: flex; flex-direction: column; gap: 12px;
   /* 넘치는 건 본문만 — 스크롤 체이닝으로 뒤 화면이 밀리지 않게 막는다 */
@@ -852,7 +852,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 
 /* --- 빈 목록 자리 (56:13318) ---------------------------------------------- */
 .emptybox { padding: 48px 16px; }
-.emptybox p { font-size: 14px; line-height: 1.6; color: var(--odile-600); text-align: center; }
+.emptybox p { font: var(--text-m-regular); color: var(--odile-600); text-align: center; }
 
 /* --- classCard 안내 박스 (41:2794) ---------------------------------------- */
 /* 아이콘은 세로 가운데 — Figma 41:2795는 카드 높이 64에서 y=22, 20px (중앙) */
@@ -907,7 +907,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
 .popup--compact .popup__title { font-size: 18px; font-weight: 700; }
 .popup--compact .popup__body { padding: 0 18px 20px; overflow-y: auto; }
 /* 확인 창의 한 줄 설명 — 제목 바로 아래 */
-.confirm__desc { font-size: 14px; line-height: 1.6; color: var(--odile-700); margin-bottom: 16px; }
+.confirm__desc { font: var(--text-m-regular); color: var(--odile-700); margin-bottom: 16px; }
 .popup--compact .popup__actions { margin-top: 16px; }
 /* 수업 상세에서 들어온 레벨을 강조 */
 /* .guide.is-focus는 스크롤 위치를 잡는 표식일 뿐 — 색은 입히지 않는다 */
@@ -1216,7 +1216,7 @@ button.cirow__body { background: none; border: 0; font: inherit; cursor: pointer
   border-radius: 12px; text-align: center;
 }
 .calday--week { gap: 2px; min-height: 66px; padding: 10px 12px 12px; }
-.calday--label { min-height: 38px; padding: 10px 12px 12px; font-size: 12px; color: var(--odile-600); }
+.calday--label { min-height: 38px; padding: 10px 12px 12px; font: var(--text-s-regular); color: var(--odile-600); }
 .calday--day, .calday--blank { min-height: 38px; padding: 2px 12px 12px; }
 .calday__wd { font: var(--text-s-regular); color: var(--odile-600); }
 .calday__n  { font: var(--text-l-regular); color: var(--odile-900); font-variant-numeric: tabular-nums; }
@@ -1308,7 +1308,7 @@ button.alert:active { opacity: .7; }
 .btn-stack { display: flex; flex-direction: column; gap: 8px; }
 .btn-stack .btn {
   width: 100%; min-height: 42px; padding: 10px 16px;
-  border-radius: 12px; font-size: 14px; font-weight: 500;
+  border-radius: 12px; font: var(--text-m-medium);
 }
 .btn-stack .btn--primary { background: var(--giselle-100); color: var(--odile-900); }
 .btn-stack .btn--outline { box-shadow: inset 0 0 0 1px var(--odile-300); color: var(--odile-800); }
@@ -1343,7 +1343,7 @@ button.alert:active { opacity: .7; }
   flex: none; width: 44px; height: 44px; border-radius: 14px;
   display: grid; place-items: center;
   background: var(--giselle-50); color: var(--odile-900);
-  font-size: 16px; font-weight: 600;
+  font: var(--text-l-semibold);
 }
 .teacher__body { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .teacher__top { display: flex; align-items: center; gap: 6px; }
@@ -1367,10 +1367,10 @@ button.alert:active { opacity: .7; }
 .pickrow {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 10px 0; border-top: 1px solid var(--odile-200);
-  font-size: 14px; line-height: 1.6; color: var(--odile-900);
+  font: var(--text-m-regular); color: var(--odile-900);
 }
 .pickrow:first-child { border-top: 0; }
-.pickrow__del { flex: none; font-size: 12px; font-weight: 500; color: var(--odile-600); }
+.pickrow__del { flex: none; font: var(--text-s-medium); color: var(--odile-600); }
 
 /* 요청 카드 */
 .reqlist { display: flex; flex-direction: column; gap: 8px; }
@@ -1380,12 +1380,12 @@ button.alert:active { opacity: .7; }
 }
 .reqcard__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .reqcard__title { font: var(--text-l-semibold); color: var(--odile-900); }
-.reqcard__meta { margin-top: 2px; font-size: 12px; line-height: 1.5; color: var(--odile-600); }
+.reqcard__meta { margin-top: 2px; font: var(--text-s-regular); color: var(--odile-600); }
 .reqcard__when {
   margin: 10px 0 0; padding: 0; list-style: none;
   display: flex; flex-direction: column; gap: 4px;
 }
-.reqcard__when li { font-size: 14px; line-height: 1.6; color: var(--odile-900); }
+.reqcard__when li { font: var(--text-m-regular); color: var(--odile-900); }
 
 /* --- 홈 헤더 (60:13972) --------------------------------------------------- */
 .hdr--home { display: flex; align-items: center; gap: 12px; padding: 20px 16px; }
