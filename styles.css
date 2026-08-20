@@ -1300,19 +1300,27 @@ button.alert:active { opacity: .7; }
 /* 알림 슬라이더 — 기한 없는 안내만 한 장씩 꽉 차게 넘긴다.
    마감 배지가 붙는 알림은 위에 세로로 남는다 (home.js의 pinned). */
 /* --- 알림 티커 -------------------------------------------------------------
-   기한이 없는 안내를 한 자리에서 한 줄씩 위로 굴린다.
-   한 칸 높이에 맞춰 한 줄로 자르고, 마지막 뒤에 첫 장을 한 번 더 둬서
-   되감기는 순간이 보이지 않게 한다. */
+   배너는 제자리에 있고 안쪽 줄(아이콘 + 문장)만 한 칸씩 위로 굴러간다.
+   창 밖으로 나간 줄은 잘려서 눌리지 않으므로, 보이는 줄이 곧 눌리는 줄이다.
+
+   순수 CSS 애니메이션이다. 이 앱은 상태가 바뀔 때마다 화면을 통째로 다시
+   그려서, JS 타이머로 돌리면 매 렌더마다 순서가 처음으로 되감긴다. */
 .alerts + .ticker { margin-top: 8px; }
-.ticker { --tick-h: 44px; height: var(--tick-h); overflow: hidden; }
-.ticker__roll { display: flex; flex-direction: column; }
-.ticker .alert {
-  flex: 0 0 var(--tick-h); min-height: var(--tick-h); margin-top: 0;
+.ticker {
+  --tick-h: 44px;
+  display: block; height: var(--tick-h); padding: 0; overflow: hidden;
 }
-/* 한 칸에 한 줄 — 접히면 다음 장이 밀려 올라간다 */
+.ticker__roll { display: flex; flex-direction: column; }
+.ticker__item {
+  flex: 0 0 var(--tick-h); min-height: var(--tick-h); width: 100%;
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px; text-align: left;
+}
+.ticker__item:active { opacity: .7; }
+/* 한 칸에 한 줄 — 접히면 다음 줄이 밀려 올라간다 */
 .ticker .alert__text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* 한 장을 보여주고(약 82%) 다음 장으로 밀어 올린다 */
+/* 한 줄을 보여주고(약 82%) 다음 줄로 밀어 올린다 */
 .ticker--2 .ticker__roll { animation: tick2 8s infinite; }
 .ticker--3 .ticker__roll { animation: tick3 12s infinite; }
 .ticker--4 .ticker__roll { animation: tick4 16s infinite; }
@@ -1334,10 +1342,12 @@ button.alert:active { opacity: .7; }
   75%, 95%   { transform: translateY(calc(var(--tick-h) * -3)); }
   100%       { transform: translateY(calc(var(--tick-h) * -4)); }
 }
-/* 움직임을 줄이는 설정이면 굴리지 않고 전부 펼친다 */
+/* 움직임을 줄이는 설정이면 굴리지 않고 전부 펼친다 (복제된 마지막 줄은 감춘다) */
 @media (prefers-reduced-motion: reduce) {
   .ticker { height: auto; }
-  .ticker__roll { animation: none; gap: 8px; }
+  .ticker__roll { animation: none; }
+  .ticker__item + .ticker__item { border-top: 1px solid rgba(33, 33, 33, .06); }
+  .ticker__item:last-child { display: none; }
   .ticker .alert__text { white-space: normal; }
 }
 

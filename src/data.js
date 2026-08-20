@@ -180,6 +180,13 @@ const inTerm = (d) => {
   return t ? d >= t.start && d <= t.end : false;
 };
 
+/**
+ * 수강신청 화면 준비 여부.
+ * false면 탭 전체가 준비중 안내로 대체된다 — 정규 담기뿐 아니라
+ * 보강·쿠폰 단건 신청도 같이 막힌다. 화면이 완성되면 true로만 바꾸면 된다.
+ */
+export const ENROLL_READY = false;
+
 /** 개인레슨 — 시간별 1회 요금 */
 export const PRIVATE_PRICE = { 60: 80000, 80: 100000 };
 

@@ -57,31 +57,28 @@ function alerts() {
 
   // 처음 온 회원에게는 신청 전에 읽을 것이 먼저다
   if (isNew) {
-    sliding.push(alertCard({
-      tone: 'guide',
+    sliding.push({
       icon: icons.infoFilled({ size: 20 }),
       text: '발레를 처음 시작하는 분들을 위한 Q&A',
       arrow: true,
       action: 'noop',
-    }));
+    });
   }
 
   if (w.kind === 'upcoming' && w.open) {
-    sliding.push(alertCard({
-      tone: 'notice',
+    sliding.push({
       icon: icons.infoFilled({ size: 20 }),
       text: `<b>${NOW.getMonth() + 2}월 수강신청</b>이 열렸어요`,
       arrow: true,
       action: 'go-next-month',
-    }));
+    });
   } else if (w.kind === 'upcoming' && NOW.getDate() >= ENROLLMENT_NOTICE_DAY) {
-    sliding.push(alertCard({
-      tone: 'notice',
+    sliding.push({
       icon: icons.infoFilled({ size: 20 }),
       // 배지 없음 — 문장에 날짜가 이미 있고, 오픈 전에는 재촉해도 할 수 있는 게 없다.
       // 카운트다운은 '놓치면 잃는' 보강·쿠폰에만 둔다.
       text: `${isNew ? '신규' : '기존'} 회원 수강신청은 <b>${fmtMD(w.openAt)}</b>부터 가능해요`,
-    }));
+    });
   }
 
   const makeup = makeupAvailable();
@@ -115,14 +112,13 @@ function alerts() {
   // 회원은 자기가 뭘 기다리는지 잊는다. 홈에서 그 탭으로 바로 들어가게 한다.
   const pending = pendingPrivateRequests();
   if (pending.length) {
-    sliding.push(alertCard({
-      tone: 'notice',
+    sliding.push({
       icon: icons.account(true),
       // 배지 없음 — 마감이 아니라 답을 기다리는 일이다
       text: `개인레슨 요청 <b>${pending.length}건</b>이 확인 중이에요`,
       arrow: true,
       action: 'go-private-requests',
-    }));
+    });
   }
 
   return (pinned.length ? `<div class="alerts">${pinned.join('')}</div>` : '')

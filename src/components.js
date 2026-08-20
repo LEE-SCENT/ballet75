@@ -113,17 +113,17 @@ export const classListRow = ({
  * 아이콘 20 + 문장 + (배지 | 셰브런). 문장 안의 숫자만 <b>로 굵게 한다.
  * tone: makeup(pointe/100) | coupon·guide(clara/100) | notice(giselle/50)
  */
-export const alertCard = ({
-  tone = 'notice', icon, text, badge, arrow = false, action, id = '',
-}) => {
-  const inner = `
-    <span class="alert__icon">${icon}</span>
-    <span class="alert__text">${text}</span>
-    ${badge ? chip(badge) : ''}
-    ${arrow ? `<span class="alert__aside">${icons.chevronRight({ size: 20 })}</span>` : ''}`;
+const alertInner = ({ icon, text, badge, arrow = false }) => `
+  <span class="alert__icon">${icon}</span>
+  <span class="alert__text">${text}</span>
+  ${badge ? chip(badge) : ''}
+  ${arrow ? `<span class="alert__aside">${icons.chevronRight({ size: 20 })}</span>` : ''}`;
+
+export const alertCard = (o) => {
+  const { tone = 'notice', action, id = '' } = o;
   return action
-    ? `<button class="alert alert--${tone}" data-action="${action}" data-id="${esc(id)}">${inner}</button>`
-    : `<div class="alert alert--${tone}">${inner}</div>`;
+    ? `<button class="alert alert--${tone}" data-action="${action}" data-id="${esc(id)}">${alertInner(o)}</button>`
+    : `<div class="alert alert--${tone}">${alertInner(o)}</div>`;
 };
 
 /* ==========================================================================
@@ -331,10 +331,18 @@ export const classCardList = (cards, perPage = 2) => carousel({ items: cards, pe
  * 마지막 뒤에 첫 장을 한 번 더 두어 되감기는 순간이 보이지 않게 한다.
  */
 export const ticker = (items) => {
-  if (items.length < 2) return `<div class="alerts">${items.join('')}</div>`;
+  if (!items.length) return '';
+  if (items.length === 1) return `<div class="alerts">${alertCard(items[0])}</div>`;
+
+  // 배너는 제자리에 있고 안쪽 줄만 굴러간다. 창 밖으로 나간 줄은 잘려서
+  // 눌리지 않으므로, 지금 보이는 줄이 곧 눌리는 줄이다.
+  const row = (o) => `
+    <button class="ticker__item" data-action="${o.action || 'noop'}" data-id="${esc(o.id || '')}">
+      ${alertInner(o)}
+    </button>`;
   return `
-    <div class="ticker ticker--${Math.min(items.length, 4)}">
-      <div class="ticker__roll">${items.join('')}${items[0]}</div>
+    <div class="alert alert--notice ticker ticker--${Math.min(items.length, 4)}">
+      <div class="ticker__roll">${items.map(row).join('')}${row(items[0])}</div>
     </div>`;
 };
 

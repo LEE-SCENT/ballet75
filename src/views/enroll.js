@@ -15,9 +15,9 @@ import {
   startOfWeek, addDays, makeupAvailable, makeupDeadline, regularPrice, activeCoupons,
   timeRange, hhmm, fmtFullDate, fmtMD, parseYmd, isSameDay, won, filterChipCount,
 } from '../state.js';
-import { NOW, ymd, cancelLimitFor, QUOTA_UNCONFIRMED } from '../data.js';
+import { NOW, ymd, cancelLimitFor, QUOTA_UNCONFIRMED, ENROLL_READY } from '../data.js';
 import { esc, icons, statusChip, section, empty, errorState, skeletonList, placeLine } from '../ui.js';
-import { classListCard, classListRow, segmentedControl } from '../components.js';
+import { classListCard, classListRow, segmentedControl, infoNotice, emptyBox } from '../components.js';
 
 // 지난달은 신청·보강 모두 불가라 노출하지 않는다 — 이번 달 + 다음 달만
 const MONTHS = [NOW.getMonth(), NOW.getMonth() + 1];
@@ -464,7 +464,32 @@ export function selectionBar() {
 }
 
 /* --- view ----------------------------------------------------------------- */
+/**
+ * 준비중 — 화면을 다시 만드는 동안 여기로 모은다.
+ * 홈·마이·취소 완료의 진입 버튼은 그대로 두고 이 화면이 이유를 설명한다.
+ * 버튼을 숨기면 그 자리가 비어 "왜 사라졌지"가 되지만, 안내는 상태를 알려준다.
+ */
+function comingSoon() {
+  return `
+    <header class="hdr">
+      <div class="hdr__top"><h1 class="hdr__title">수강신청</h1></div>
+    </header>
+    <div class="content">
+      <div class="mt-8">${infoNotice({
+    tone: 'plain',
+    text: '수강신청 화면을 <b>새로 만들고 있어요</b>. 준비되면 알려드릴게요.',
+  })}</div>
+      <div class="mt-24">${emptyBox('지금은 신청할 수 없어요')}</div>
+      <div class="btn-stack mt-24">
+        <button class="btn btn--primary btn--sm" data-action="go-my">내 수업 보기</button>
+        <button class="btn btn--outline btn--sm" data-action="go-private">개인레슨 예약</button>
+      </div>
+      <p class="footnote">보강·쿠폰 신청도 함께 준비 중이에요. 급한 건은 관리자에게 문의해 주세요.</p>
+    </div>`;
+}
+
 export function enrollView() {
+  if (!ENROLL_READY) return comingSoon();
   if (state.loadError) {
     return `${header()}<div class="content">${errorState({
       title: '수업 정보를 불러오지 못했어요.',

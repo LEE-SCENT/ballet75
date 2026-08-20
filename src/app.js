@@ -11,7 +11,7 @@ import {
   privateSeries, privateSlots, parseYmd as parseYmdStr,
   makeupAvailable, activeCoupons, startOfWeek, addDays, parseYmd, weekDefaultDay, EMPTY_FILTER,
 } from './state.js';
-import { NOW, brand, ymd, termOf } from './data.js';
+import { NOW, brand, ymd, termOf, ENROLL_READY } from './data.js';
 import { icons } from './ui.js';
 import { homeView } from './views/home.js';
 import { myClassesView } from './views/myClasses.js';
@@ -94,7 +94,8 @@ function render() {
     enrollView();
 
   // 보강·쿠폰 단건 신청은 바텀 네비까지 덮는 풀모달로 띄운다 — X로만 나간다
-  const single = state.enroll.mode === 'single'
+  // 준비중이면 단건 신청(보강·쿠폰) 풀모달도 띄우지 않는다 — 탭이 안내로 대체된다
+  const single = ENROLL_READY && state.enroll.mode === 'single'
     ? `<div class="fullmodal fullmodal--under">${singleBookingView()}</div>`
     : '';
   const stack = state.stack.length ? stackPage(state.stack[state.stack.length - 1]) : '';
