@@ -322,6 +322,22 @@ export const carousel = ({ items, perPage = 1, variant = '' }) => {
 /** 수강권 캐러셀 — 한 화면에 두 장 */
 export const classCardList = (cards, perPage = 2) => carousel({ items: cards, perPage });
 
+/**
+ * ticker — 기한 없는 안내를 한 줄씩 위로 굴린다.
+ * 넘겨야 보이면 안 넘기는 사람에게는 없는 안내가 되니, 가만히 둬도 지나간다.
+ *
+ * 순수 CSS 애니메이션이다. 이 앱은 상태가 바뀔 때마다 화면을 통째로 다시 그려서
+ * JS 타이머로 돌리면 매 렌더마다 순서가 처음으로 되감긴다.
+ * 마지막 뒤에 첫 장을 한 번 더 두어 되감기는 순간이 보이지 않게 한다.
+ */
+export const ticker = (items) => {
+  if (items.length < 2) return `<div class="alerts">${items.join('')}</div>`;
+  return `
+    <div class="ticker ticker--${Math.min(items.length, 4)}">
+      <div class="ticker__roll">${items.join('')}${items[0]}</div>
+    </div>`;
+};
+
 /* --- selectCard + stepper — Figma 쿠폰 구매 시트 (55:12583) ---------------- */
 
 /** stepper — 빼기 / 수량 / 더하기. 수량 0이면 빼기 버튼이 비활성이다 */

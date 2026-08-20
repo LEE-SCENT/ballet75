@@ -490,6 +490,7 @@ a.btn { text-decoration: none; }
   .passlist { padding: 2px 0 4px; overflow-x: visible; }
   .pass { flex: 1 1 0; max-width: none; }
   .passdots { display: none; }
+
 }
 
 /* --- 정규반 카드의 반 목록 — 한 줄씩 -------------------------------------- */
@@ -1298,11 +1299,47 @@ button.alert:active { opacity: .7; }
 
 /* 알림 슬라이더 — 기한 없는 안내만 한 장씩 꽉 차게 넘긴다.
    마감 배지가 붙는 알림은 위에 세로로 남는다 (home.js의 pinned). */
-.alerts + .passwrap--alerts { margin-top: 8px; }
-.passwrap--alerts .passlist > .alert {
-  flex: 0 0 100%; scroll-snap-align: start; margin-top: 0;
+/* --- 알림 티커 -------------------------------------------------------------
+   기한이 없는 안내를 한 자리에서 한 줄씩 위로 굴린다.
+   한 칸 높이에 맞춰 한 줄로 자르고, 마지막 뒤에 첫 장을 한 번 더 둬서
+   되감기는 순간이 보이지 않게 한다. */
+.alerts + .ticker { margin-top: 8px; }
+.ticker { --tick-h: 44px; height: var(--tick-h); overflow: hidden; }
+.ticker__roll { display: flex; flex-direction: column; }
+.ticker .alert {
+  flex: 0 0 var(--tick-h); min-height: var(--tick-h); margin-top: 0;
 }
-.passwrap--alerts .passdots { margin-top: 8px; }
+/* 한 칸에 한 줄 — 접히면 다음 장이 밀려 올라간다 */
+.ticker .alert__text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 한 장을 보여주고(약 82%) 다음 장으로 밀어 올린다 */
+.ticker--2 .ticker__roll { animation: tick2 8s infinite; }
+.ticker--3 .ticker__roll { animation: tick3 12s infinite; }
+.ticker--4 .ticker__roll { animation: tick4 16s infinite; }
+@keyframes tick2 {
+  0%, 41%    { transform: translateY(0); }
+  50%, 91%   { transform: translateY(calc(var(--tick-h) * -1)); }
+  100%       { transform: translateY(calc(var(--tick-h) * -2)); }
+}
+@keyframes tick3 {
+  0%, 27%    { transform: translateY(0); }
+  33%, 61%   { transform: translateY(calc(var(--tick-h) * -1)); }
+  67%, 94%   { transform: translateY(calc(var(--tick-h) * -2)); }
+  100%       { transform: translateY(calc(var(--tick-h) * -3)); }
+}
+@keyframes tick4 {
+  0%, 20%    { transform: translateY(0); }
+  25%, 45%   { transform: translateY(calc(var(--tick-h) * -1)); }
+  50%, 70%   { transform: translateY(calc(var(--tick-h) * -2)); }
+  75%, 95%   { transform: translateY(calc(var(--tick-h) * -3)); }
+  100%       { transform: translateY(calc(var(--tick-h) * -4)); }
+}
+/* 움직임을 줄이는 설정이면 굴리지 않고 전부 펼친다 */
+@media (prefers-reduced-motion: reduce) {
+  .ticker { height: auto; }
+  .ticker__roll { animation: none; gap: 8px; }
+  .ticker .alert__text { white-space: normal; }
+}
 
 /* buttonGroup (60:14001) — 화면 폭을 꽉 채우는 보조 버튼 두 개 */
 .btn-stack { display: flex; flex-direction: column; gap: 8px; }

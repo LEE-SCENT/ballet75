@@ -14,7 +14,7 @@ import { NOW, user, PASS_BADGE_DAYS, ENROLLMENT_NOTICE_DAY } from '../data.js';
 import {
   esc, icons, errorState, skeletonList, skeletonBlock, placeLine,
 } from '../ui.js';
-import { classListCard, classListRow, alertCard, emptyBox, carousel } from '../components.js';
+import { classListCard, classListRow, alertCard, emptyBox, ticker } from '../components.js';
 
 /** 로고 + 인사 한 줄 */
 const header = () => `
@@ -46,7 +46,7 @@ const urgent = (d) => Math.round((dayStart(d) - dayStart(NOW)) / 86400000) <= PA
      pinned  — 남은 일수 배지가 붙는 것(보강·쿠폰). 세로로 그대로 쌓는다.
                넘겨야 보이는 마감은 없는 마감이나 마찬가지다.
      sliding — 기한이 없는 안내(신규 Q&A·신청 오픈·개인레슨). 한 자리에서
-               넘겨 본다. 재촉할 게 없으니 한 번에 다 보일 이유도 없다.
+               위로 굴러간다. 재촉할 게 없으니 한 번에 다 보일 이유도 없다.
 
    두 묶음 안에서는 급한 것부터다. */
 function alerts() {
@@ -126,7 +126,7 @@ function alerts() {
   }
 
   return (pinned.length ? `<div class="alerts">${pinned.join('')}</div>` : '')
-    + (sliding.length ? carousel({ items: sliding, variant: 'alerts' }) : '');
+    + (sliding.length ? ticker(sliding) : '');
 }
 
 /* --- 오늘 / 다음 수업 ----------------------------------------------------- */
